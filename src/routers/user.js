@@ -87,8 +87,35 @@ router.get("/user/search", userAuth, async (req, res) => {
     }
 });
 //user update
+router.patch("/user/me", userAuth, async (req, res) => {
+    try{
+        const updates = Object.keys(req.body);
+        const allowedUpdates = ["nickName", "userName", "phoneNumber", "bio"];
+        const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
+        if(!isValidOperation) {
+            return res.status(404).send({error: "Invalid operation"});
+        }
 
+        updates.forEach((update) => req.user[update] = req.body[update]);
+
+        await req.user.save();
+
+        res.status(200).send(req.user);
+    } catch(e) {
+        res.status(400).send(e);
+    }
+})
+//User delete account
+router.delete("/user/me", userAuth, async (req, res) => {
+    try {
+        await req.user.remove();
+        res.status(200).send("account deleted successfully");
+    } catch(e) {
+        res.status(400).send();
+    }
+});
+//
 
 
 
