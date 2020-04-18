@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 
 const User = require("../models/user");
+const Pv = require("../models/pv");
 
 const userAuth = require("../middleware/userauth");
 
