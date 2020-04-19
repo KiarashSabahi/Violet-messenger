@@ -1,14 +1,14 @@
-const express = require("express");
-const router = new express.Router();
+import express from "express";
+const userRouter = new express.Router();
 
-const User = require("../models/user");
-const Pv = require("../models/pv");
+import User from "../models/user.mjs";
+import Pv from "../models/pv.mjs";
 
-const userAuth = require("../middleware/userauth");
+import userAuth from "../middleware/userauth.mjs";
 
 //
 //sign up
-router.post("/user/signup", async (req, res) => {
+userRouter.post("/user/signup", async (req, res) => {
     const user = new User(req.body);
 
     try {
@@ -21,7 +21,7 @@ router.post("/user/signup", async (req, res) => {
     }
 });
 //login
-router.get("/user/login", async (req, res) => {
+userRouter.get("/user/login", async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
@@ -32,7 +32,7 @@ router.get("/user/login", async (req, res) => {
     }
 });
 //validating users current token
-router.get("/user/isloggedin", userAuth, async (req, res) => {
+userRouter.get("/user/isloggedin", userAuth, async (req, res) => {
     try{
         res.status(200).send(req.user);
     } catch(e) {
@@ -40,7 +40,7 @@ router.get("/user/isloggedin", userAuth, async (req, res) => {
     }
 });
 //log out
-router.delete("/user/logout", userAuth, async (req, res) => {
+userRouter.delete("/user/logout", userAuth, async (req, res) => {
     try{
         req.user.tokens = req.user.tokens.filter((entry) => {
           return entry.token != req.token;
@@ -53,11 +53,11 @@ router.delete("/user/logout", userAuth, async (req, res) => {
     }
 });
 //profile
-router.get("/user/me", userAuth, async (req, res) => {
+userRouter.get("/user/me", userAuth, async (req, res) => {
     res.status(200).send(req.user);
 });
 //user search
-router.get("/user/search", userAuth, async (req, res) => {
+userRouter.get("/user/search", userAuth, async (req, res) => {
     try{
         const queries = Object.keys(req.query);
         const queryValues = Object.values(req.query);
@@ -88,7 +88,7 @@ router.get("/user/search", userAuth, async (req, res) => {
     }
 });
 //user update
-router.patch("/user/me", userAuth, async (req, res) => {
+userRouter.patch("/user/me", userAuth, async (req, res) => {
     try{
         const updates = Object.keys(req.body);
         const allowedUpdates = ["nickName", "userName", "phoneNumber", "bio"];
@@ -108,7 +108,7 @@ router.patch("/user/me", userAuth, async (req, res) => {
     }
 })
 //User delete account
-router.delete("/user/me", userAuth, async (req, res) => {
+userRouter.delete("/user/me", userAuth, async (req, res) => {
     try {
         await req.user.remove();
         res.status(200).send("account deleted successfully");
@@ -122,7 +122,4 @@ router.delete("/user/me", userAuth, async (req, res) => {
 
 
 
-
-
-
-module.exports = router
+export default userRouter;

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 
 const pvSchema = new mongoose.Schema({
@@ -44,4 +44,4 @@ const pvSchema = new mongoose.Schema({
 
 const Pv = mongoose.model("Pv", pvSchema);
 
-module.exports = Pv;
+export default Pv;
