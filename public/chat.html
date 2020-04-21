@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Violet Messenger</title>
+        <link rel="stylesheet" href="/css/chat.css" />
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+
+    <body>
+        <h1>Welcome</h1>
+        <!-- message stacker -->
+        <div id="messages" class="chat__messages"></div>
+        <!-- sending messeng part -->
+        <div id="messageFormPart">
+            <form id="messageForm">
+                <input type="text" name="message"/>
+                <button>Send</button>
+            </form>
+        </div>
+        <!-- Templates -->
+        <div>
+            <script id="messageTemplate" type="text/html">
+                <dev>
+                    <p>
+                        {{user}}: {{message}}
+                    </p>
+                </dev>
+            </script>
+        </div>
+
+
+
+
+        <div id="messageBar"></div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+        <script src="/js/socket.io.js"></script>
+        <script src="/js/chat.js"></script>
+    </body>
+</html>

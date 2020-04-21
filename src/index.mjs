@@ -1,6 +1,8 @@
 import express from "express";
 import path from "path";
 import http from "http";
+import cookieParser from "cookie-parser";
+
 
 import ("./db/mongoose.mjs");
 const __dirname = path.resolve();
@@ -13,6 +15,7 @@ const port = process.env.port || 3000;
 const publicDirectoryPath = path.join(__dirname, "/public");
 //
 app.use(express.json());
+app.use(cookieParser());
 app.use(userRouter);
 app.use(express.static(publicDirectoryPath));
 //

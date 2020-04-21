@@ -21,11 +21,13 @@ userRouter.post("/user/signup", async (req, res) => {
     }
 });
 //login
-userRouter.get("/user/login", async (req, res) => {
+userRouter.post("/user/login", async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
-        res.status(200).send({user, token});
+        res.cookie('Authorization', 'Bearer ' + token, {
+            expires: new Date(Date.now() + 3 * 24 * 3600000)
+        }).status(200).send({user, token});
     } catch(e) {
         console.log(e);
         res.status(400).send(e);
@@ -33,11 +35,7 @@ userRouter.get("/user/login", async (req, res) => {
 });
 //validating users current token
 userRouter.get("/user/isloggedin", userAuth, async (req, res) => {
-    try{
-        res.status(200).send(req.user);
-    } catch(e) {
-        res.status(400).send(e)
-    }
+    res.status(200).send({user: req.user, result: true});
 });
 //log out
 userRouter.delete("/user/logout", userAuth, async (req, res) => {
