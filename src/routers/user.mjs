@@ -2,7 +2,7 @@ import express from "express";
 const userRouter = new express.Router();
 
 import User from "../models/user.mjs";
-import Pv from "../models/pv.mjs";
+import Direct from "../models/direct.mjs";
 
 import userAuth from "../middleware/userauth.mjs";
 

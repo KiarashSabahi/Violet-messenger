@@ -48,7 +48,15 @@ const userSchema = new mongoose.Schema({
         }
     },
     phoneNumber: {},
-    chats: {},
+    chats: [{
+        userName: {
+            type: String,
+            required: true
+        },
+        chatId: {
+            type: String
+        }
+    }],
     contacts: {},
     tokens: [{
         token: {

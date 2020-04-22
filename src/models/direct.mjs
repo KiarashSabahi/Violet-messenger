@@ -1,17 +1,21 @@
 import mongoose from "mongoose";
 
 
-const pvSchema = new mongoose.Schema({
-    memebers: [{
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
+const directSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        required: true
+    },
+    members: [{
+        userName: {
+            type: String,
+            required: true
         }
     }],
     massages: [{
         massage: {
             sender: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: String,
                 required: true
             },
             massageType: {
@@ -42,6 +46,6 @@ const pvSchema = new mongoose.Schema({
     }
 });
 
-const Pv = mongoose.model("Pv", pvSchema);
+const Direct = mongoose.model("Direct", directSchema);
 
-export default Pv;
+export default Direct;
