@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+    <body>
+        <h1>Chats</h1>
+
+        <div id="chats" class="chat__messages"></div>
+
+        <div id="chatSelectFormPart">
+            <form id="chatForm">
+                <input type="text" name="userName"/>
+                <button>Send</button>
+            </form>
+        </div>
+
+
+        <!-- Templates -->
+
+        <div>
+            <script id="chatsTemplate" type="text/html">
+                <div>
+                    <p>
+                        {{userName}}
+                    </p>
+                </div>
+            </script>
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+        <script src="/js/chats.js"></script>
+    </body>
+</html>

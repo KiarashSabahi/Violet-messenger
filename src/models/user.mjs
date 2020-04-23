@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate(value) {
             if(value.search(" ") != -1){
-                throw new Error("username cant contain space!");
+                throw new Error('username cant contain space')
             }
         }
     },

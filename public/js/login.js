@@ -24,5 +24,5 @@ $loginFormButton.addEventListener("click", async (e) => {
         return window.alert("User not found");
     }
     console.log(user);
-    window.location.href="http://localhost:3000/chat.html";
+    window.location.href="http://localhost:3000/loading.html";
 });

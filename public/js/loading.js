@@ -22,7 +22,7 @@ setTimeout(() => {
         if(!user.result) {
             return window.location.href="http://localhost:3000/login.html";
         } else {
-            return window.location.href="http://localhost:3000/chat.html";
+            return window.location.href="http://localhost:3000/chats.html";
         }
 
     }

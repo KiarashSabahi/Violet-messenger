@@ -114,9 +114,6 @@ userRouter.delete("/user/me", userAuth, async (req, res) => {
         res.status(400).send();
     }
 });
-//
-
-
 
 
 
