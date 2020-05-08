@@ -3,8 +3,8 @@ function sleep(ms) {
 }
 
 async function demo() {
-  setTimeout("alert('this alert is timedout and should be the first');", 5000);
-  await sleep(5000);
+  setTimeout("alert('this alert is timedout and should be the first');", 2000);
+  await sleep(2000);
   alert('this should be the second one');
 }
 demo();

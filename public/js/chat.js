@@ -35,6 +35,6 @@ $messageFormButton.addEventListener("click", (e) => {
         return window.alert("Text cant be empty");
     }
 
-    socket.emit("sendmessage", message,);
+    socket.emit("sendmessage", message);
     $messageFormInput.value = "";
 });
