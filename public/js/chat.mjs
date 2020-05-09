@@ -1,7 +1,24 @@
 const socket = io();
 const reciever = sessionStorage.getItem("userName");
 
+const $messageForm = document.querySelector("#messageForm");
+const $messageFormInput = $messageForm.querySelector("input");
+const $messageFormButton = $messageForm.querySelector("button");
+const $messages = document.querySelector("#messages");
+//
+const messageTemplate = document.querySelector('#messageTemplate').innerHTML;
+
 let chatId = "";
+
+function render(message, reciever, user) {
+    const html = Mustache.render(messageTemplate, {
+        message: message,
+        reciever: reciever,
+        user: user
+    });
+
+    $messages.insertAdjacentHTML("beforeend", html);
+}
 
 function getCookie(name) {
   var value = "; " + document.cookie;
@@ -12,13 +29,13 @@ function getCookie(name) {
 ;(async () => {
     const headers = new Headers();
     headers.append("content-type", "application/json");
-    const requestOptions = {
+    let requestOptions = {
         method: "POST",
         headers,
         redirect: "follow",
         body: JSON.stringify({userName: reciever})
     };
-    const response = await fetch("http://localhost:3000/direct", requestOptions);
+    let response = await fetch("http://localhost:3000/direct", requestOptions);
     chatId = await response.json();
     chatId = chatId.chatId;
 
@@ -26,24 +43,27 @@ function getCookie(name) {
 
     socket.emit("cookies", cookies, reciever, chatId);
 
+    requestOptions = {
+        method: "POST",
+        headers,
+        redirect: "follow",
+        body: JSON.stringify({chatId})
+    };
+    response = await fetch("http://localhost:3000/messages", requestOptions);
+    const  messages = await response.json();
+
+    messages.forEach((message) => {
+        render(message.message, message.reciever, message.sender);
+    });
+
+
 })();
 
 //
-const $messageForm = document.querySelector("#messageForm");
-const $messageFormInput = $messageForm.querySelector("input");
-const $messageFormButton = $messageForm.querySelector("button");
-const $messages = document.querySelector("#messages");
-//
-const messageTemplate = document.querySelector('#messageTemplate').innerHTML;
+
 //
 socket.on("message", ({message, user, reciever}) => {
-    const html = Mustache.render(messageTemplate, {
-        message: message,
-        reciever: reciever,
-        user: user
-    });
-
-    $messages.insertAdjacentHTML("beforeend", html);
+    render(message, reciever, user);
 });
 //
 $messageFormButton.addEventListener("click", (e) => {

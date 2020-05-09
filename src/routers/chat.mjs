@@ -48,6 +48,17 @@ chatRouter.get("/chats", userAuth, async (req, res) => {
     }
 });
 
+chatRouter.post("/messages", userAuth, async (req, res) => {
+    try {
+        const direct = await Direct.findOne({id: req.body.chatId});
+        res.status(200).send(direct.messages)
+    } catch (e) {
+        res.status(500).send(e);
+    }
+})
+
+
+
 
 
 

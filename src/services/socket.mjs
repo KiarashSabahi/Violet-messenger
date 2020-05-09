@@ -22,6 +22,7 @@ io.on("connection", async (socket) => {
 
         const templateObject = {
             sender: user,
+            reciever,
             message
         };
 

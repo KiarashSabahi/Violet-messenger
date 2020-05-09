@@ -17,6 +17,10 @@ const directSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        reciever: {
+            type: String,
+            required: true
+        },
         messageType: {
             type: String,
             default: "text"
