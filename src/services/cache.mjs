@@ -32,3 +32,13 @@ export let cacheIt = async (hashKey, key, input, toggle) => {
         return JSON.parse(output);
     }
 };
+
+
+export const clearCache = async (hKey, key, content) => {
+    let oldArray = await client.hget(hKey, key);
+    oldArray = JSON.parse(oldArray);
+    oldArray = oldArray.filter((item) => {
+        return content != item;
+    });
+    client.hset(hKey, key, JSON.stringify(oldArray));
+};

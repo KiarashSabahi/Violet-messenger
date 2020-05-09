@@ -16,14 +16,14 @@ function render(message, reciever, user) {
         reciever: reciever,
         user: user
     });
-
     $messages.insertAdjacentHTML("beforeend", html);
+    window.scrollTo(0,document.body.scrollHeight);
 }
 
 function getCookie(name) {
-  var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
 }
 
 ;(async () => {
@@ -38,7 +38,6 @@ function getCookie(name) {
     let response = await fetch("http://localhost:3000/direct", requestOptions);
     chatId = await response.json();
     chatId = chatId.chatId;
-
     let cookies = getCookie("Authorization").replace("Bearer%20", "");
 
     socket.emit("cookies", cookies, reciever, chatId);
@@ -55,8 +54,6 @@ function getCookie(name) {
     messages.forEach((message) => {
         render(message.message, message.reciever, message.sender);
     });
-
-
 })();
 
 //

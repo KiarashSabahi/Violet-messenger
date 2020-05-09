@@ -5,7 +5,7 @@ import {server} from "../index.mjs";
 import User from "../models/user.mjs";
 import Direct from "../models/direct.mjs";
 
-import {cacheIt} from "./cache.mjs"
+import {cacheIt, clearCache} from "./cache.mjs"
 //
 
 const io = socketio(server);
@@ -16,6 +16,7 @@ io.on("connection", async (socket) => {
 
         await cacheIt("rooms", chatId, socket.id, true);
 
+        socket.chatId = chatId;
     });
 
     socket.on("sendmessage", async ({message, user, reciever, chatId}) => {
@@ -36,5 +37,9 @@ io.on("connection", async (socket) => {
         socketsArray.forEach((socketId) => {
             io.to(socketId).emit("message", {message, user, reciever});
         });
+    });
+
+    socket.on("disconnect", async () => {
+        await clearCache("rooms", socket.chatId, socket.id);
     });
 });

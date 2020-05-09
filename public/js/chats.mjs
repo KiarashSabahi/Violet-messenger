@@ -1,5 +1,3 @@
-const socket = io();
-
 const $chats = document.querySelector("#chats");
 const chatsTemplate = document.querySelector('#chatsTemplate').innerHTML;
 const $chatSelectForm = document.querySelector("#chatSelectForm");
@@ -16,50 +14,27 @@ async function getUsers() {
     const response = await fetch("http://localhost:3000/chats", requestOptions);
     const chats = await response.json();
 
-    chats.forEach((item) => {
+    chats.forEach((item, i) => {
         const html = Mustache.render(chatsTemplate, {
             userName: item.userName
         });
 
+        const buttonTemplate =  `<button type="button" name="button" id="${i}">${item.userName}</button>`
 
-        $chats.insertAdjacentHTML("beforeend", html);
+
+        $chats.insertAdjacentHTML("beforeend", buttonTemplate);
+
+        const newButton = document.getElementById(i);
+
+        newButton.addEventListener("click", () => {
+            sessionStorage.setItem("userName", item.userName);
+            window.location.href="http://localhost:3000/chat.html";
+        })
     });
-
 }
+
+
 
 ;(async () => {
     await getUsers();
 })();
-
-
-$chatSelectFormButton.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    let user = $chatSelectFormInput.value;
-
-    if(!user) {
-        return window.alert("Username cant be empty");
-    }
-    async function getUser() {
-        // const headers = new Headers();
-        // headers.append("content-type", "application/json");
-        // const requestOptions = {
-        //     method: "POST",
-        //     headers,
-        //     redirect: "follow",
-        //     body: JSON.stringify({userName: user})
-        // };
-        // const response = await fetch("http://localhost:3000/direct", requestOptions);
-        // const chat = await response.json();
-
-
-        sessionStorage.setItem("userName", user);
-
-        window.location.href="http://localhost:3000/chat.html";
-    }
-
-    ;(async () => {
-        await getUser();
-    })();
-
-});
