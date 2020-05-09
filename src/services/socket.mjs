@@ -1,8 +1,9 @@
 // import
 import socketio from "socket.io";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import {server} from "../index.mjs";
 import User from "../models/user.mjs";
+import Direct from "../models/direct.mjs";
 
 import {cacheIt} from "./cache.mjs"
 //
@@ -11,29 +12,28 @@ const io = socketio(server);
 
 io.on("connection", async (socket) => {
 
+    socket.on("cookies", async (token, reciever, chatId) => {
 
-
-    socket.on("cookies", async (token, reciever) => {
-
-        const decoded = jwt.verify(token, "user");
-        const user = await User.findOne({_id: decoded._id, "tokens.token": token});
-
-        await cacheIt("onlineUsers", user.userName, {[reciever]: socket.id}, true);
-        // console.log( await cacheIt("onlineUsers", user.userName, socket.id, false));
+        await cacheIt("rooms", chatId, socket.id, true);
 
     });
 
-    socket.on("sendmessage", async ({message, user, reciever}) => {
-        const socketTarget = await cacheIt("onlineUsers", reciever, null, false);
-        console.log(socketTarget);
-        io.to(socketTarget[user]).emit("message", {message, user, reciever});
-        socket.emit("message", {message, reciever, user})
-        // io.sockets.socket( await cacheIt("onlineUsers", reciever, false)).emit({message, user, reciever});
-        // io.emit("message", {message, user, reciever});
+    socket.on("sendmessage", async ({message, user, reciever, chatId}) => {
+
+        const templateObject = {
+            sender: user,
+            message
+        };
+
+        const direct = await Direct.findOne({id: chatId});
+        direct.messages.push(templateObject);
+        await direct.save();
+
+
+        const socketsArray = await cacheIt("rooms", chatId, null, false);
+
+        socketsArray.forEach((socketId) => {
+            io.to(socketId).emit("message", {message, user, reciever});
+        });
     });
-
-    socket.on("selectChat", (chat) => {
-        // console.log(socket.id);
-    })
-
 });

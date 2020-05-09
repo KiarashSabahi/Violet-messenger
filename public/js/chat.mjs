@@ -1,18 +1,32 @@
 const socket = io();
-
 const reciever = sessionStorage.getItem("userName");
 
+let chatId = "";
 
-//
 function getCookie(name) {
   var value = "; " + document.cookie;
   var parts = value.split("; " + name + "=");
   if (parts.length == 2) return parts.pop().split(";").shift();
 }
 
-let cookies = getCookie("Authorization").replace("Bearer%20", "");
+;(async () => {
+    const headers = new Headers();
+    headers.append("content-type", "application/json");
+    const requestOptions = {
+        method: "POST",
+        headers,
+        redirect: "follow",
+        body: JSON.stringify({userName: reciever})
+    };
+    const response = await fetch("http://localhost:3000/direct", requestOptions);
+    chatId = await response.json();
+    chatId = chatId.chatId;
 
-socket.emit("cookies", cookies, reciever);
+    let cookies = getCookie("Authorization").replace("Bearer%20", "");
+
+    socket.emit("cookies", cookies, reciever, chatId);
+
+})();
 
 //
 const $messageForm = document.querySelector("#messageForm");
@@ -41,6 +55,6 @@ $messageFormButton.addEventListener("click", (e) => {
     }
 
     const user = getCookie("Sender");
-    socket.emit("sendmessage", {message, user, reciever});
+    socket.emit("sendmessage", {message, user, reciever, chatId});
     $messageFormInput.value = "";
 });

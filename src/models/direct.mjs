@@ -12,35 +12,27 @@ const directSchema = new mongoose.Schema({
             required: true
         }
     }],
-    massages: [{
-        massage: {
-            sender: {
-                type: String,
-                required: true
-            },
-            massageType: {
-                type: String,
-                required: true,
-                default: "text"
-            },
-            massage: {
-                type: String,
-                required: true
-            },
-            submitTime: {
-                type: Date,
-                required: true
-            },
-            massageNumber: {
-                type: Number,
-                required: true
-            }
+    messages: [{
+        sender: {
+            type: String,
+            required: true
+        },
+        messageType: {
+            type: String,
+            default: "text"
+        },
+        message: {
+            type: String,
+            required: true
+        },
+        submitTime: {
+            type: Date,
+            default: new Date()
         }
     }],
     info: {
-        massageCount: {
+        messageCount: {
             type:Number,
-            required: true,
             default: 0
         }
     }

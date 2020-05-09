@@ -41,18 +41,17 @@ $chatSelectFormButton.addEventListener("click", (e) => {
         return window.alert("Username cant be empty");
     }
     async function getUser() {
-        const headers = new Headers();
-        headers.append("content-type", "application/json");
-        const requestOptions = {
-            method: "POST",
-            headers,
-            redirect: "follow",
-            body: JSON.stringify({userName: user})
-        };
-        const response = await fetch("http://localhost:3000/direct", requestOptions);
-        const chat = await response.json();
+        // const headers = new Headers();
+        // headers.append("content-type", "application/json");
+        // const requestOptions = {
+        //     method: "POST",
+        //     headers,
+        //     redirect: "follow",
+        //     body: JSON.stringify({userName: user})
+        // };
+        // const response = await fetch("http://localhost:3000/direct", requestOptions);
+        // const chat = await response.json();
 
-        socket.emit("selectChat", chat);
 
         sessionStorage.setItem("userName", user);
 

@@ -10,12 +10,10 @@ import userAuth from "../middleware/userauth.mjs";
 
 
 chatRouter.post("/direct", userAuth, async (req, res) => {
-    console.log(req.body);
     let chatId = null;
     req.user.chats.some((item) => {
         if (item.userName == req.body.userName) {
             chatId = item.chatId
-            console.log("raft to if");
             return chatId === item.chatId
         }
     });
@@ -23,7 +21,6 @@ chatRouter.post("/direct", userAuth, async (req, res) => {
     if (chatId != null) {
       return res.status(200).send({chatId});
     }
-    console.log("dare misaze");
     chatId = cRS({length: 12});
     const otherUser = await User.findOne({userName: req.body.userName})
     if(!otherUser) {
