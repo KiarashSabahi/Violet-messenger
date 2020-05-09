@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 6,
+        minlength: 4,
         validate(value) {
             if(value.toLowerCase().includes("password")){
                 throw new Error("password must not inlude password")
@@ -101,12 +101,12 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 }
 //finding account by email and password
-userSchema.statics.findByCredentials = async (email, password) => {
-    if(!validator.isEmail(email)) {
-        throw ({error: "Email is not valid!"});
-    }
+userSchema.statics.findByCredentials = async (userName, password) => {
+    // if(!validator.isEmail(email)) {
+    //     throw ({error: "Email is not valid!"});
+    // }
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({userName});
     if(!user) {
         throw ({error:'Unable to find the user'});
     }

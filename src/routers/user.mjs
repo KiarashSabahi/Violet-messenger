@@ -23,7 +23,7 @@ userRouter.post("/user/signup", async (req, res) => {
 //login
 userRouter.post("/user/login", async (req, res) => {
     try {
-        const user = await User.findByCredentials(req.body.email, req.body.password);
+        const user = await User.findByCredentials(req.body.userName, req.body.password);
         const token = await user.generateAuthToken();
         res.cookie('Authorization', 'Bearer ' + token, {
             expires: new Date(Date.now() + 3 * 24 * 3600000)

@@ -15,10 +15,19 @@ client.get = util.promisify(client.get);
 export let cacheIt = async (hashKey, key, input, toggle) => {
   //toggle = true -> set
   //toggle = false -> get
-  if (toggle) {
-    client.hset(hashKey, key, JSON.stringify(input));
-  } else {
-    const output = await client.hget(hashKey, key);
-    return JSON.parse(output);
-  }
+    if (toggle) {
+
+        let dummy = await client.hget(hashKey, key);
+
+        if(dummy) {
+            dummy = Object.assign(input, dummy);
+        } else {
+            dummy = input;
+        }
+
+        client.hset(hashKey, key, JSON.stringify(dummy));
+    } else {
+        const output = await client.hget(hashKey, key);
+        return JSON.parse(output);
+    }
 };

@@ -11,7 +11,7 @@ $loginFormButton.addEventListener("click", async (e) => {
         headers.append("content-type", "application/json");
         const requestOptions = {
             method: "POST",
-            body: JSON.stringify({email: $loginFormInputUserName.value, password: $loginFormInputPassword.value}),
+            body: JSON.stringify({userName: $loginFormInputUserName.value, password: $loginFormInputPassword.value}),
             headers,
             credentials: "include",
             redirect: "follow"

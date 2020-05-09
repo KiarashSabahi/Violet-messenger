@@ -31,26 +31,31 @@ async function getUsers() {
     await getUsers();
 })();
 
+
 $chatSelectFormButton.addEventListener("click", (e) => {
     e.preventDefault();
-    const user = $chatSelectFormInput.value;
+
+    let user = $chatSelectFormInput.value;
 
     if(!user) {
         return window.alert("Username cant be empty");
     }
-
     async function getUser() {
         const headers = new Headers();
+        headers.append("content-type", "application/json");
         const requestOptions = {
             method: "POST",
             headers,
             redirect: "follow",
-            body: {userName: user}
+            body: JSON.stringify({userName: user})
         };
         const response = await fetch("http://localhost:3000/direct", requestOptions);
         const chat = await response.json();
 
         socket.emit("selectChat", chat);
+
+        sessionStorage.setItem("userName", user);
+
         window.location.href="http://localhost:3000/chat.html";
     }
 

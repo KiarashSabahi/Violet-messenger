@@ -10,11 +10,11 @@ import userAuth from "../middleware/userauth.mjs";
 
 
 chatRouter.post("/direct", userAuth, async (req, res) => {
-
+    console.log(req.body);
     let chatId = null;
     req.user.chats.some((item) => {
-        chatId = item.chatId
         if (item.userName == req.body.userName) {
+            chatId = item.chatId
             console.log("raft to if");
             return chatId === item.chatId
         }
@@ -42,7 +42,10 @@ chatRouter.post("/direct", userAuth, async (req, res) => {
 
 chatRouter.get("/chats", userAuth, async (req, res) => {
     try {
-        res.status(200).send(req.user.chats);
+        res.cookie('Sender', req.user.userName, {
+            expires: new Date(Date.now() + 3 * 24 * 3600000),
+            sameSite: "strict"
+        }).status(200).send(req.user.chats);
     } catch(e) {
         res.status(400).send(e);
     }

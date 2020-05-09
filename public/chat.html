@@ -24,7 +24,7 @@
             <script id="messageTemplate" type="text/html">
                 <div>
                     <p>
-                        {{user}}: {{message}}
+                        {{user}} => {{reciever}} : {{message}}
                     </p>
                 </div>
             </script>
@@ -36,6 +36,6 @@
         <div id="messageBar"></div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
         <script src="/js/socket.io.js"></script>
-        <script src="/js/chat.js"></script>
+        <script type="module" src="/js/chat.mjs"></script>
     </body>
 </html>

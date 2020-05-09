@@ -1,4 +1,8 @@
 const socket = io();
+
+const reciever = sessionStorage.getItem("userName");
+
+
 //
 function getCookie(name) {
   var value = "; " + document.cookie;
@@ -8,7 +12,7 @@ function getCookie(name) {
 
 let cookies = getCookie("Authorization").replace("Bearer%20", "");
 
-socket.emit("cookies", cookies);
+socket.emit("cookies", cookies, reciever);
 
 //
 const $messageForm = document.querySelector("#messageForm");
@@ -18,9 +22,10 @@ const $messages = document.querySelector("#messages");
 //
 const messageTemplate = document.querySelector('#messageTemplate').innerHTML;
 //
-socket.on("message", (user, message) => {
+socket.on("message", ({message, user, reciever}) => {
     const html = Mustache.render(messageTemplate, {
         message: message,
+        reciever: reciever,
         user: user
     });
 
@@ -35,6 +40,7 @@ $messageFormButton.addEventListener("click", (e) => {
         return window.alert("Text cant be empty");
     }
 
-    socket.emit("sendmessage", message);
+    const user = getCookie("Sender");
+    socket.emit("sendmessage", {message, user, reciever});
     $messageFormInput.value = "";
 });
