@@ -55,6 +55,9 @@ const userSchema = new mongoose.Schema({
         },
         chatId: {
             type: String
+        },
+        kind: {
+            type: String
         }
     }],
     contacts: {},

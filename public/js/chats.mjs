@@ -28,6 +28,7 @@ async function getUsers() {
 
         newButton.addEventListener("click", () => {
             sessionStorage.setItem("userName", item.userName);
+            sessionStorage.setItem("kind", item.kind);
             window.location.href="http://localhost:3000/chat.html";
         })
     });

@@ -1,5 +1,6 @@
 const socket = io();
 const reciever = sessionStorage.getItem("userName");
+const kind = sessionStorage.getItem("kind");
 
 const $messageForm = document.querySelector("#messageForm");
 const $messageFormInput = $messageForm.querySelector("input");
@@ -35,7 +36,7 @@ function getCookie(name) {
         redirect: "follow",
         body: JSON.stringify({userName: reciever})
     };
-    let response = await fetch("http://localhost:3000/direct", requestOptions);
+    let response = await fetch("http://localhost:3000/" + kind, requestOptions);
     chatId = await response.json();
     chatId = chatId.chatId;
     let cookies = getCookie("Authorization").replace("Bearer%20", "");
@@ -46,11 +47,11 @@ function getCookie(name) {
         method: "POST",
         headers,
         redirect: "follow",
-        body: JSON.stringify({chatId})
+        body: JSON.stringify({chatId, kind})
     };
     response = await fetch("http://localhost:3000/messages", requestOptions);
-    const  messages = await response.json();
-
+    const messages = await response.json();
+    console.log(messages);
     messages.forEach((message) => {
         render(message.message, message.reciever, message.sender);
     });
@@ -72,6 +73,6 @@ $messageFormButton.addEventListener("click", (e) => {
     }
 
     const user = getCookie("Sender");
-    socket.emit("sendmessage", {message, user, reciever, chatId});
+    socket.emit("sendmessage", {message, user, reciever, chatId, kind});
     $messageFormInput.value = "";
 });
