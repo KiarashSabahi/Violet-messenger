@@ -1,16 +1,153 @@
-
-#messageFormPart {
-    position: fixed;
-    bottom: 5px;
-    right: 5px;
+html {
+    height: 100vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: hidden;
 }
 
-input {
-    width: 500px;
-    height: 50px;
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: #182238;
+    background-size: cover;
+    color: white;
+    font-weight: 0;
 }
 
-button {
-    width: 50px;
+#page {
+    position: relative;
+}
+
+#chat {
+    max-width: 50vw;
+    background-color: #1C0335;
+}
+
+.header {
+    position: relative;
+    width: 50vw;
+    top: 0;
+    left: 50%; transform: translate(-50%);
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #1C0335;
+    padding-left: 10px;
+}
+
+.middle {
+    position: relative;
+    padding: 20px;
+    width: 50vw;
+    top: 0px;
+    height: 80vh;
+    margin-bottom: auto;
+    left: 50%; transform: translate(-50%);
+    flex-direction: column;
+    display: flex;
+    background-color: #240445;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+
+.bottom {
+    position: relative;
+    width: 50vw;
+    bottom: 0px;
+    left: 50%; transform: translate(-50%);
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #1C0335;
+    justify-content: center;
+}
+
+
+#chatsButton {
+    position: relative;
+    background-color: transparent;
+    border-style: none;
+    border-width: 0.3px;
+    border-radius: 2px;
+    left: 20px;
+    width: 55px;
+    background-color: #420B65;
+    height: 45px;
+    background-image: url("../pics/icons8-back-100 (2).png");
+    background-size: 50px 45px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+#chatContact {
+    position: relative;
+    top: 1px;
+    left: 100px;
+    padding-left: 10px;
+    padding-bottom: 35px;
+    font-size: 40px;
+    color: #e6e6e6;
+    font-family: fantasy;
+}
+
+.messageForm {
+    display: flex;
+    flex-direction: row;
+    width:575px;
+}
+
+#messages {
+}
+
+.message {
+    overflow: hidden;
+    display: inline-grid;
+    border-style: none;
+    max-width: 80%;
+    border-width: 0.5px;
+    border-radius: 5px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 0px;
+    font-family: sans-serif;
+    font-size: 14px;
+    padding-top: 3px;
+    padding-left: 18px;
+    padding-right: 18px;
+    background-color: #660ac2;
+    clear:both;
+    float:left;
+}
+
+#messageSendButton {
     height: 50px;
+    width: 100px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-style: none;
+    border-left-style: solid;
+    background-color: #240445;
+    color: white;
+    border-color: blue;
+    margin-left: 10px;
+}
+
+#messageInput {
+    width: 500/575%;
+    height: 50px;
+    border-color: transparent;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #240445;
+    color: white;
+}
+
+#addToTexts {
+    background-color: blue;
 }

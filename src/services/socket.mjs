@@ -5,6 +5,7 @@ import {server} from "../index.mjs";
 import User from "../models/user.mjs";
 import Direct from "../models/direct.mjs";
 import Group from "../models/group.mjs";
+import Channel from "../models/channel.mjs";
 
 import {cacheIt, clearCache} from "./cache.mjs"
 //
@@ -31,15 +32,34 @@ io.on("connection", async (socket) => {
         switch (kind) {
             case "direct": {
                 messages = await Direct.findOne({id: chatId});
+                messages.messages.push(templateObject);
                 break;
             }
             case "group": {
                 messages = await Group.findOne({id: chatId});
                 delete templateObject.reciever;
+                messages.messages.push(templateObject);
+                break;
+            }
+            case "channel": {
+                messages = await Channel.findOne({id: chatId});
+                delete templateObject.reciever;
+                let state = false;
+                messages.admins.some((admin) => {
+                    if(user == admin.userName) {
+                        messages.messages.push(templateObject);
+                        state = true;
+                    }
+                })
+
+                if(!state) {
+                    return;
+                }
+
                 break;
             }
         }
-        messages.messages.push(templateObject);
+        // messages.messages.push(templateObject);
         await messages.save();
 
 

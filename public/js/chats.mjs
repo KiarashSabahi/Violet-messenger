@@ -1,8 +1,5 @@
 const $chats = document.querySelector("#chats");
 const chatsTemplate = document.querySelector('#chatsTemplate').innerHTML;
-const $chatSelectForm = document.querySelector("#chatSelectForm");
-const $chatSelectFormInput = $chatSelectForm.querySelector("input");
-const $chatSelectFormButton = $chatSelectForm.querySelector("button");
 
 async function getUsers() {
     const headers = new Headers();

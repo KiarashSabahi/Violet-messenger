@@ -2,24 +2,25 @@ const socket = io();
 const reciever = sessionStorage.getItem("userName");
 const kind = sessionStorage.getItem("kind");
 
-const $messageForm = document.querySelector("#messageForm");
-const $messageFormInput = $messageForm.querySelector("input");
-const $messageFormButton = $messageForm.querySelector("button");
+// const $messageForm = document.querySelector("#messageForm");
+const $messageFormInput = document.querySelector("#messageInput");
+const $messageFormButton = document.querySelector("#messageSendButton");
 const $messages = document.querySelector("#messages");
-//
-const messageTemplate = document.querySelector('#messageTemplate').innerHTML;
+// const messageTemplate = document.querySelector('#messageTemplate').innerHTML;
 
 let chatId = "";
 
-function render(message, reciever, user) {
-    const html = Mustache.render(messageTemplate, {
-        message: message,
-        reciever: reciever,
-        user: user
-    });
-    $messages.insertAdjacentHTML("beforeend", html);
-    window.scrollTo(0,document.body.scrollHeight);
+document.querySelector("#chatContact_name").innerHTML = reciever
+
+function render(message, sender, time) {
+    var node = document.createElement("div");
+    var textnode = document.createTextNode(sender + " at " + time + " : " + message);
+    node.classList.add("message");
+    node.appendChild(textnode);
+    document.querySelector("#messages").appendChild(node);
+    document.querySelector(".middle").scrollTo(0,document.querySelector(".middle").scrollHeight);
 }
+
 
 function getCookie(name) {
     var value = "; " + document.cookie;
@@ -41,6 +42,7 @@ function getCookie(name) {
     chatId = chatId.chatId;
     let cookies = getCookie("Authorization").replace("Bearer%20", "");
 
+
     socket.emit("cookies", cookies, reciever, chatId);
 
     requestOptions = {
@@ -50,18 +52,20 @@ function getCookie(name) {
         body: JSON.stringify({chatId, kind})
     };
     response = await fetch("http://localhost:3000/messages", requestOptions);
-    const messages = await response.json();
-    console.log(messages);
-    messages.forEach((message) => {
-        render(message.message, message.reciever, message.sender);
+    const chat = await response.json();
+    chat.messages.forEach((message) => {
+        let time = new Date(message.submitTime)
+        render(message.message, message.sender, time.toLocaleTimeString());
     });
+
+    // document.getElementById("titleBar").innerHTML = chat.name;
 })();
 
 //
 
 //
 socket.on("message", ({message, user, reciever}) => {
-    render(message, reciever, user);
+    render(message, user, new Date().toLocaleTimeString());
 });
 //
 $messageFormButton.addEventListener("click", (e) => {

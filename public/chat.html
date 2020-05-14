@@ -2,38 +2,46 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>Violet Messenger</title>
-        <link rel="stylesheet" href="/css/chat.css" />
-        <link rel="stylesheet" href="/css/style.css" />
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Starter</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+        <link rel="stylesheet" href="/css/chat.css">
     </head>
 
     <body>
-        <h1>Welcome</h1>
-        <!-- message stacker -->
-        <div id="messages" class="chat__messages"></div>
-        <!-- sending messeng part -->
-        <div id="messageFormPart">
-            <form id="messageForm">
-                <input type="text" name="message"/>
-                <button>Send</button>
-            </form>
+
+        <div class="columns" id="page">
+          <div class="column is-4">
+            First column
+          </div>
+          <div class="column is-6" id="chat">
+              <div class="header">
+                  <button id="chatsButton">
+                  <div id="chatContact">
+                      <div id="chatContact_name">
+
+                      </div>
+                  </div>
+              </div>
+
+              <div class="middle">
+
+                  <div id="messages" ></div>
+
+              </div>
+
+              <div class="bottom">
+                  <form class="messageForm">
+                      <input id="messageInput" class="input is-medium" type="text" name="message" placeholder="Message"/>
+                      <button id="messageSendButton">Send</button>
+                  </form>
+              </div>
+          </div>
+          <div class="column is-2" id="addToTexts">
+            Third column
+          </div>
         </div>
-        <!-- Templates -->
 
-        <div>
-            <script id="messageTemplate" type="text/html">
-                <div>
-                    <p>
-                        {{user}} => {{reciever}} : {{message}}
-                    </p>
-                </div>
-            </script>
-        </div>
-
-
-
-        <div id="messageBar"></div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
         <script src="/js/socket.io.js"></script>
         <script type="module" src="/js/chat.mjs"></script>
     </body>
