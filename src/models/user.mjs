@@ -1,9 +1,9 @@
+//imports
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-//
 //creating user schema
 const userSchema = new mongoose.Schema({
     userName: {
@@ -71,27 +71,32 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-//
+//functions
+
 //hashing plain password
 userSchema.pre("save", async function (next) {
     const user = this
-
+    //hashing users password everytime a new password is saved
     if(user.isModified("password")) {
         user.password = await bcrypt.hash(user.password, 8);
     }
 
     next();
 })
+
 //hiding password and tokens
 userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
+
+    //deleting password and token from response
 
     delete userObject.password;
     delete userObject.tokens;
 
     return userObject;
 }
+
 //token generator
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
@@ -103,12 +108,9 @@ userSchema.methods.generateAuthToken = async function () {
 
     return token;
 }
-//finding account by email and password
-userSchema.statics.findByCredentials = async (userName, password) => {
-    // if(!validator.isEmail(email)) {
-    //     throw ({error: "Email is not valid!"});
-    // }
 
+//finding account by username and password
+userSchema.statics.findByCredentials = async (userName, password) => {
     const user = await User.findOne({userName});
     if(!user) {
         throw ({error:'Unable to find the user'});

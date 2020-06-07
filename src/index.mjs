@@ -1,15 +1,15 @@
+//imports
 import express from "express";
 import path from "path";
 import http from "http";
 import cookieParser from "cookie-parser";
 
-
-import ("./db/mongoose.mjs");
 const __dirname = path.resolve();
 
+import ("./db/mongoose.mjs");
 import userRouter from "./routers/user.mjs";
 import chatRouter from "./routers/chat.mjs";
-//
+//setting up the express server
 const app = express();
 export const server = http.createServer(app);
 const port = process.env.port || 3000;

@@ -1,6 +1,7 @@
+//imports
 import mongoose from "mongoose";
 
-
+//creating channels schema
 const channelSchema = new mongoose.Schema({
     userName: {
         type: String,
@@ -42,6 +43,7 @@ const channelSchema = new mongoose.Schema({
     }]
 });
 
+//creating channels model
 const Channel = mongoose.model("Channel", channelSchema);
 
 export default Channel;

@@ -20,9 +20,9 @@ $loginFormButton.addEventListener("click", async (e) => {
         return response.json();
     }
     const user = await getUser();
+    localStorage.setItem('activeUser', JSON.stringify(user.user));
     if(!user) {
         return window.alert("User not found");
     }
-    console.log(user);
     window.location.href="http://localhost:3000/loading.html";
 });

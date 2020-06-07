@@ -1,6 +1,7 @@
+//imports
 import mongoose from "mongoose";
 
-
+//creating groups schema
 const groupSchema = new mongoose.Schema({
     userName: {
         type: String,
@@ -36,6 +37,7 @@ const groupSchema = new mongoose.Schema({
     }]
 });
 
+//creating groups model  
 const Group = mongoose.model("Group", groupSchema);
 
 export default Group;

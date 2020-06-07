@@ -1,9 +1,8 @@
+//imports
 import redis from "redis";
 import util from "util";
 
-
-//
-
+//connecting to redis server
 const redisURL = "redis://127.0.0.1:6379";
 const client = redis.createClient(redisURL);
 
@@ -32,7 +31,6 @@ export let cacheIt = async (hashKey, key, input, toggle) => {
         return JSON.parse(output);
     }
 };
-
 
 export const clearCache = async (hKey, key, content) => {
     let oldArray = await client.hget(hKey, key);

@@ -1,6 +1,7 @@
+//imports
 import mongoose from "mongoose";
 
-
+//creating direct chats schema
 const directSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -42,6 +43,7 @@ const directSchema = new mongoose.Schema({
     }
 });
 
+//creating direct chats model
 const Direct = mongoose.model("Direct", directSchema);
 
 export default Direct;
