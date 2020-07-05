@@ -33,15 +33,16 @@ function render(message, sender, time, count) {
 
     var timeNode = document.createElement("div");
     var timeText = document.createTextNode(time);
-    timeNode.classList.add("messageTime");
     timeNode.appendChild(timeText);
 
     node.classList.add("message");
 
     if(sender == activeUser) {
         node.classList.add("sent");
+        timeNode.classList.add("sentMessageTime");
     } else {
         node.classList.add("recieved");
+        timeNode.classList.add("recievedMessageTime");
     }
 
     node.appendChild(senderNode);

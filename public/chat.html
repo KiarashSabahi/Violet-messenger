@@ -4,42 +4,50 @@
         <meta charset="utf-8">
          <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Starter</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
         <link rel="stylesheet" href="/css/chat.css">
     </head>
 
     <body>
 
-        <div class="columns" id="page">
-          <div class="column is-4">
-            First column
-          </div>
-          <div class="column is-6" id="chat">
-              <div class="header">
-                  <button id="chatsButton">
-                  <div id="chatContact">
-                      <div id="chatContact_name">
+        <div class="columns" id="chtpage">
+            <div class="column is-4" id="chatParent">
+                <div class="chatsPage">
+                    First column
+                </div>
+            </div>
 
-                      </div>
-                  </div>
-              </div>
+            <div class="column is-6" id="chatParent">
+                <div class="chat">
+                    <div class="header">
+                        <div id="chatContact">
+                            <div id="chatContact_name">
 
-              <div class="middle">
+                            </div>
+                        </div>
+                    </div>
 
-                  <div id="messages" ></div>
+                    <div class="middle">
 
-              </div>
+                        <div id="messages" ></div>
 
-              <div class="bottom">
-                  <form class="messageForm">
-                      <input id="messageInput" class="input is-medium" type="text" name="message" placeholder="Message"/>
-                      <button id="messageSendButton">Send</button>
-                  </form>
-              </div>
-          </div>
-          <div class="column is-2" id="addToTexts">
-            Third column
-          </div>
+                    </div>
+
+                    <div class="bottom">
+                        <form class="messageForm">
+                            <input id="messageInput" class="input is-medium" type="text" name="message" placeholder="Message" />
+                            <button id="messageSendButton"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-2" id="chatParent">
+                <div class="emojis">
+                    Third column
+                </div>
+            </div>
         </div>
 
         <script src="/js/socket.io.js"></script>

@@ -41,15 +41,15 @@ io.on("connection", async (socket) => {
             case "channel": {
                 messages = await Channel.findOne({id: chatId});
                 delete templateObject.reciever;
-                let state = false;
+                let isAdmin = false;
                 messages.admins.some((admin) => {
                     if(user == admin.userName) {
                         messages.messages.push(templateObject);
-                        state = true;
+                        isAdmin = true;
                     }
                 })
 
-                if(!state) {
+                if(!isAdmin) {
                     return;
                 }
 

@@ -93,7 +93,7 @@ userRouter.get("/user/search", userAuth, async (req, res) => {
 });
 
 //user update
-userRouter.patch("/user/me", userAuth, async (req, res) => {
+userRouter.patch("/user/update", userAuth, async (req, res) => {
     try{
         const updates = Object.keys(req.body);
         const allowedUpdates = ["nickName", "userName", "phoneNumber", "bio"];
@@ -114,7 +114,7 @@ userRouter.patch("/user/me", userAuth, async (req, res) => {
 })
 
 //User delete account
-userRouter.delete("/user/me", userAuth, async (req, res) => {
+userRouter.delete("/user/deleteAccount", userAuth, async (req, res) => {
     try {
         await req.user.remove();
         res.status(200).send("account deleted successfully");
