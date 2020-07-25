@@ -6,6 +6,10 @@ import util from "util";
 const redisURL = "redis://127.0.0.1:6379";
 const client = redis.createClient(redisURL);
 
+if(!client) {
+    console.log("redis server is down");
+}
+
 client.hget = util.promisify(client.hget);
 client.hgetall = util.promisify(client.hgetall);
 client.get = util.promisify(client.get);

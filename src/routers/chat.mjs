@@ -9,21 +9,26 @@ import userAuth from "../middleware/userauth.mjs";
 //
 const chatRouter = new express.Router();
 
-//Routs :
 
 //recieving or creating chat id for direct chats
 chatRouter.post("/direct", userAuth, async (req, res) => {
     try {
+        if (req.body.userName === req.user.userName) {
+            return res.status(401).send("error: cant start a chat with yourself");
+        }
+
         let chatId = null;
         req.user.chats.some((item) => {
             if (item.userName == req.body.userName) {
                 chatId = item.chatId
                 return chatId === item.chatId
+
             }
         });
 
+
         if (chatId != null) {
-          return res.status(200).send({chatId});
+          return res.status(200).send({chatId, userName: req.body.userName, kind: "direct"});
         }
         chatId = cRS({length: 12});
         const otherUser = await User.findOne({userName: req.body.userName})
@@ -37,7 +42,7 @@ chatRouter.post("/direct", userAuth, async (req, res) => {
         await otherUser.save();
         await req.user.save();
         await direct.save();
-        res.status(200).send({chatId: chatId});
+        res.status(200).send({chatId: chatId, userName: otherUser.userName, kind: "direct"});
     } catch(e) {
         res.status(400).send(e);
     }

@@ -7,6 +7,12 @@ import Direct from "../models/direct.mjs";
 import Group from "../models/group.mjs";
 import Channel from "../models/channel.mjs";
 import {cacheIt, clearCache} from "./cache.mjs"
+const collections = {
+    user: User,
+    direct: Direct,
+    group: Group,
+    channel: Channel
+};
 //
 const io = socketio(server);
 
@@ -17,15 +23,32 @@ io.on("connection", async (socket) => {
         socket.chatId = chatId;
     });
 
-    //recieving sent message from user
+    //receiving sent message from user
     socket.on("sendmessage", async ({message, user, reciever, chatId, kind}) => {
-        let messages
+        let messages;
         let templateObject = {
             sender: user,
             reciever,
             message
         };
         //kind variable shows what type of chat the message is sent to
+        // messages = await collections[kind].findOne({id: chatId});
+        // if (kind === "group" || kind === "channel") {
+        //     delete templateObject.reciever;
+        // } else if (kind === "channel") {
+        //     let isAdmin = false;
+        //     messages.admins.some((admin) => {
+        //         if(user === admin.userName) {
+        //             messages.messages.push(templateObject);
+        //             isAdmin = true;
+        //         }
+        //     });
+
+        //     if(!isAdmin) {
+        //         return;
+        //     }
+        // }
+        // messages.messages.push(templateObject);
         switch (kind) {
             case "direct": {
                 messages = await Direct.findOne({id: chatId});
@@ -43,7 +66,7 @@ io.on("connection", async (socket) => {
                 delete templateObject.reciever;
                 let isAdmin = false;
                 messages.admins.some((admin) => {
-                    if(user == admin.userName) {
+                    if(user === admin.userName) {
                         messages.messages.push(templateObject);
                         isAdmin = true;
                     }
@@ -58,7 +81,7 @@ io.on("connection", async (socket) => {
         }
 
         await messages.save();
-        //recieving socketIDs of members of the chat
+        //receiving socketIDs of members of the chat
         const socketsArray = await cacheIt("rooms", chatId, null, false);
         //sending the message to every active socketID
         socketsArray.forEach((socketId) => {

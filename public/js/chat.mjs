@@ -71,6 +71,7 @@ function getCookie(name) {
         redirect: "follow",
         body: JSON.stringify({userName: reciever})
     };
+
     let response = await fetch("http://localhost:3000/" + kind, requestOptions);
     chatId = await response.json();
     chatId = chatId.chatId;
@@ -91,7 +92,7 @@ function getCookie(name) {
     chat.messages.forEach((message) => {
         let time = new Date(message.submitTime)
         render(message.message, message.sender, time.toLocaleTimeString(), count);
-        count++ ;
+        count++;
     });
     messageNumber = count;
 

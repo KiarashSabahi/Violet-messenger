@@ -16,7 +16,9 @@ userRouter.post("/user/signup", async (req, res) => {
         const token = await user.generateAuthToken();
         const response = {user, token};
 
-        res.status(201).send({user, token});
+        res.cookie('Authorization', 'Bearer ' + token, {
+            expires: new Date(Date.now() + 5 * 24 * 3600000)
+        }).status(201).send({user, token});
     } catch(e) {
         res.status(400).send(e);
     }
@@ -35,6 +37,7 @@ userRouter.post("/user/login", async (req, res) => {
         res.status(400).send(e);
     }
 });
+
 
 //validating users current token
 userRouter.get("/user/isloggedin", userAuth, async (req, res) => {
